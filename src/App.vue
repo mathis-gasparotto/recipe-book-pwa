@@ -2,7 +2,7 @@
   <div class="dark">
     <div v-if="!currentView.name || currentView.name !== 'NotFound'">
       <NavBar />
-      <div class="p-4 sm:ml-64">
+      <div class="p-4 sm:ml-64 text-black dark:text-white">
         <component :is="currentView" />
       </div>
     </div>
