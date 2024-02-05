@@ -3,10 +3,12 @@
     <div v-if="!currentView.name || currentView.name !== 'NotFound'">
       <NavBar />
       <div class="p-4 sm:ml-64 text-black dark:text-white">
-        <component :is="currentView" />
+        <router-view></router-view>
+        <!-- <component :is="currentView" /> -->
       </div>
     </div>
-    <component v-else :is="currentView" />
+    <router-view v-else></router-view>
+    <!-- <component v-else :is="currentView" /> -->
   </div>
 </template>
 
