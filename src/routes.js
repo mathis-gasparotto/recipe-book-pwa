@@ -2,6 +2,7 @@ import HomePage from './pages/HomePage.vue'
 import ListeCoursesPage from './pages/ListeCoursesPage.vue'
 import RecipeListPage from './pages/RecipeListPage.vue'
 import RecipeDetailsPage from './pages/RecipeDetailsPage.vue'
+import NotFound from './pages/NotFound.vue'
 
 const routes = [
   {
@@ -39,6 +40,11 @@ const routes = [
     ],
     svgViewBox: '0 0 20 20',
     toNavbar: true
+  },
+  { 
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFound
   },
 ]
 
