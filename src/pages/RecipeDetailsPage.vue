@@ -1,16 +1,19 @@
 <template>
-  <h1 class="mb-4">Recipe Details</h1>
-  <h2 class="mb-12">{{ recipe.title }}</h2>
-  <p class="text-sm">{{ recipe.author }} - {{ recipe.createdAt === recipe.updatedAt || !recipe.updatedAt ? 'Created: ' + formatting().dateTimeFormattingNumeric(recipe.createdAt) : 'Updated: ' + formatting().dateTimeFormattingNumeric(recipe.updatedAt) }}</p>
-  <p class="text-sm font-bold">{{ recipe.cookingTime }} min</p>
-  <p v-html="recipe.description"></p>
-  <h3 class="mt-10 mb-4">Recipe Ingredients</h3>
-  <ul>
-    <li v-for="ingr in recipe.ingredients" :key="ingr.id">{{ ingr.name }} <span class="font-bold"> x {{ ingr.quantity }}{{ ingr.unit }}</span></li>
-  </ul>
-  <Button text="Add Ingredients to shop list" @click="addToShopList" />
-  <Button text="Back to list" @click="$router.push('/recipes')" />
-  
+  <div class="text-center">
+    <h1 class="mb-4">Recipe Details</h1>
+    <h2 class="mb-12">{{ recipe.title }}</h2>
+    <p class="text-sm">{{ recipe.author }} - {{ recipe.createdAt === recipe.updatedAt || !recipe.updatedAt ? 'Created: ' + formatting().dateTimeFormattingNumeric(recipe.createdAt) : 'Updated: ' + formatting().dateTimeFormattingNumeric(recipe.updatedAt) }}</p>
+    <p class="text-sm font-bold">{{ recipe.cookingTime }} min</p>
+    <p v-html="recipe.description"></p>
+    <h3 class="mt-10 mb-4">Recipe Ingredients</h3>
+    <ul>
+      <li v-for="ingr in recipe.ingredients" :key="ingr.id">{{ ingr.name }} <span class="font-bold"> x {{ ingr.quantity }}{{ ingr.unit }}</span></li>
+    </ul>
+    <div class="mt-6">
+      <Button text="Add Ingredients to shop list" @click="addToShopList" />
+      <Button text="Back to list" @click="$router.push('/recipes')" />
+    </div>
+  </div>
 </template>
 
 <script>
