@@ -34,11 +34,11 @@
 </template>
 
 <script>
-import recipes from '../data/recipes'
 import formatting from '../services/formatting'
 import Button from '../components/Button.vue'
 import Modal from '../components/Modal.vue'
 import RecipeForm from '../components/Recipe/RecipeForm.vue'
+import { getRecipe, updateRecipe } from '../services/recipesService'
 
 export default {
   name: 'RecipeDetailsPage',
@@ -48,28 +48,28 @@ export default {
     RecipeForm
   },
   setup() {
+    const getUser = JSON.parse(localStorage.getItem('getUser'))
+
     return {
-      formatting
+      formatting,
+      getUser
     }
   },
   data() {
     return {
-      getUser: {
-        id: 1,
-        name: 'John Doe'
-      },
       showEditModal: false,
       showDeleteModal: false,
-      recipeForEdit: {}
+      recipeForEdit: {},
+      recipe: {}
     }
   },
-  computed: {
-    recipe() {
-      const id = this.$route.params.id
-      return recipes.find(recipe => recipe.id == id)
-    }
+  created() {
+    this.reloadData()
   },
   methods: {
+    reloadData() {
+      this.recipe = getRecipe(this.$route.params.id)
+    },
     addToShopList() {
       console.log(this.recipe.ingredients)
     },
@@ -78,10 +78,8 @@ export default {
       this.recipeForEdit = { ...this.recipe }
     },
     editRecipe() {
-      console.log({ 
-        ...this.recipeForEdit,
-        ingredients: this.recipeForEdit.ingredients.filter(i => i.ingredient !== null)
-      })
+      updateRecipe(this.recipeForEdit.id, this.recipeForEdit)
+      this.reloadData()
       this.$emit('edit')
       this.showEditModal = false
     },

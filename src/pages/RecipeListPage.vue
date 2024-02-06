@@ -27,6 +27,7 @@
 import RecipeList from '../components/Recipe/RecipeList.vue'
 import Modal from '../components/Modal.vue'
 import RecipeForm from '../components/Recipe/RecipeForm.vue'
+import { createRecipe } from '../services/recipesService'
 
 export default {
   name: 'RecipeListPage',
@@ -63,7 +64,7 @@ export default {
     },
     submit() {
       this.showAddModal = false
-      console.log(this.recipe)
+      createRecipe(this.recipe)
       this.initForm()
     }
   }
