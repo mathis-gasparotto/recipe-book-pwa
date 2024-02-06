@@ -11,8 +11,8 @@
 </template>
   
 <script>
-import recipes from '../data/recipes';
-import ShoppingListItem from './ShoppingListItem.vue';
+import ShoppingListItem from './ShoppingListItem.vue'
+import { getRecipes } from '../services/recipesService'
 
 export default {
     name: 'ShoppingList',
@@ -20,6 +20,8 @@ export default {
         ShoppingListItem
     },
     setup() {
+      const recipes = getRecipes()
+
       return {
         recipes
       }

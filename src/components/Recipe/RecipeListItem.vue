@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { getRecipes, updateRecipe } from '../../services/recipesService'
 import Button from '../Button.vue'
 import Modal from '../Modal.vue'
 import RecipeForm from './RecipeForm.vue'
@@ -72,10 +73,7 @@ export default {
       this.recipeForEdit = { ...this.recipe }
     },
     editRecipe() {
-      console.log({ 
-        ...this.recipeForEdit,
-        ingredients: this.recipeForEdit.ingredients.filter(i => i.ingredient !== null)
-      })
+      updateRecipe(this.recipeForEdit.id, this.recipeForEdit)
       this.$emit('edit')
       this.showEditModal = false
     },
