@@ -1,13 +1,30 @@
 <template>
+  <div v-if="getUser.id === recipe.author.id">
+    <Modal :show="showDeleteModal" title="Delete recipe" acceptText="Yes, delete" declineText="Cancel"
+      @accept="deleteRecipe" @decline="showDeleteModal = false" @close="showDeleteModal = false">
+      <p>Are you sure you want to delete this recipe?</p>
+    </Modal>
+    <Modal :show="showEditModal" title="Edit recipe" acceptText="Submit" declineText="Cancel" @accept="editRecipe"
+      @decline="showEditModal = false" @close="showEditModal = false">
+      <RecipeForm hideSubmit v-model:formData="recipeForEdit" />
+    </Modal>
+  </div>
   <div class="text-center">
     <h1 class="mb-4">Recipe Details</h1>
     <h2 class="mb-12">{{ recipe.title }}</h2>
-    <p class="text-sm">{{ recipe.author.name }} - {{ recipe.createdAt === recipe.updatedAt || !recipe.updatedAt ? 'Created: ' + formatting().dateTimeFormattingNumeric(recipe.createdAt) : 'Updated: ' + formatting().dateTimeFormattingNumeric(recipe.updatedAt) }}</p>
+    <div class="flex justify-center" v-if="recipe.author.id === getUser.id">
+      <Button text="Edit" color="blue" @click="showEdit" />
+      <Button text="Delete" color="red" @click="showDeleteModal = true" />
+    </div>
+    <p class="text-sm">{{ recipe.author.name }} - {{ recipe.createdAt === recipe.updatedAt || !recipe.updatedAt ?
+      'Created: ' + formatting().dateTimeFormattingNumeric(recipe.createdAt) : 'Updated: ' +
+      formatting().dateTimeFormattingNumeric(recipe.updatedAt) }}</p>
     <p class="text-sm font-bold">{{ recipe.cookingTime }} min</p>
-    <p v-html="recipe.description"></p>
+    <p v-html="formatting().mdToHtml(recipe.description)"></p>
     <h3 class="mt-10 mb-4">Recipe Ingredients</h3>
     <ul>
-      <li v-for="ingr in recipe.ingredients" :key="ingr.id">{{ ingr.name }} <span class="font-bold"> x {{ ingr.quantity }}{{ ingr.unit }}</span></li>
+      <li v-for="ingr in recipe.ingredients" :key="ingr.id">{{ ingr.name }} <span class="font-bold"> x {{ ingr.quantity
+      }}{{ ingr.unit }}</span></li>
     </ul>
     <div class="mt-6">
       <Button text="Add Ingredients to shop list" @click="addToShopList" />
@@ -20,30 +37,58 @@
 import recipes from '../data/recipes'
 import formatting from '../services/formatting'
 import Button from '../components/Button.vue'
+import Modal from '../components/Modal.vue'
+import RecipeForm from '../components/Recipe/RecipeForm.vue'
 
 export default {
   name: 'RecipeDetailsPage',
   components: {
-    Button
+    Button,
+    Modal,
+    RecipeForm
   },
   setup() {
     return {
       formatting
     }
   },
+  data() {
+    return {
+      getUser: {
+        id: 1,
+        name: 'John Doe'
+      },
+      showEditModal: false,
+      showDeleteModal: false,
+      recipeForEdit: {}
+    }
+  },
   computed: {
     recipe() {
       const id = this.$route.params.id
-      const recipe = recipes.find(recipe => recipe.id == id)
-      return {
-        ...recipe,
-        description: this.formatting().mdToHtml(recipe.description)
-      }
+      return recipes.find(recipe => recipe.id == id)
     }
   },
   methods: {
     addToShopList() {
       console.log(this.recipe.ingredients)
+    },
+    showEdit() {
+      this.showEditModal = true
+      this.recipeForEdit = { ...this.recipe }
+    },
+    editRecipe() {
+      console.log({ 
+        ...this.recipeForEdit,
+        ingredients: this.recipeForEdit.ingredients.filter(i => i.id !== null)
+      })
+      this.$emit('edit')
+      this.showEditModal = false
+    },
+    deleteRecipe() {
+      console.log('Delete recipe')
+      this.$emit('delete')
+      this.showDeleteModal = false
     }
   }
 }
