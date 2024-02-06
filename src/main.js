@@ -2,12 +2,23 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 import routes from './routes'
-import * as VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+import recipes from './data/recipes'
 
-const router = VueRouter.createRouter({
-  // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
-  history: VueRouter.createWebHashHistory(),
-  routes, // short for `routes: routes`
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.name === 'Recipe Details') {
+    const recipeId = to.params.id
+    const recipe = recipes.find(recipe => recipe.id == recipeId)
+    if (!recipe) {
+      return next({ name: 'Recipes' })
+    }
+  }
+  next()
 })
 
 createApp(App).use(router).mount('#app')
