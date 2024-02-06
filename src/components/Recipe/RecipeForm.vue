@@ -39,10 +39,9 @@
       <div v-for="(ingr, index) in recipe.ingredients" :key="index" class="flex mb-4">
         <select
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          v-model="recipe.ingredients[index].id"
-          @change="recipe.ingredients[index].name = ingredients.find(e => e.id === recipe.ingredients[index].id)">
+          v-model="recipe.ingredients[index].ingredient">
           <option disabled :value="null">-- Choose ingredient --</option>
-          <option v-for="ingredientData in ingredients" :value="ingredientData.id" :key="ingredientData.id">{{
+          <option v-for="ingredientData in ingredients" :value="ingredientData" :key="ingredientData.id">{{
             ingredientData.name }}</option>
         </select>
         <div class="flex">
@@ -126,8 +125,7 @@ export default {
   methods: {
     addIngredient() {
       this.recipe.ingredients.push({
-        id: null,
-        name: '',
+        ingredient: null,
         quantity: 0,
         unit: ''
       })
@@ -135,7 +133,7 @@ export default {
     submit() {
       this.$emit('submit', {
         ...this.recipe,
-        ingredients: this.recipe.ingredients.filter(i => i.id !== null)
+        ingredients: this.recipe.ingredients.filter(i => i.ingredient !== null)
       })
     },
     deleteIngredient(index) {
