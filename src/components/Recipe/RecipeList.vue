@@ -6,16 +6,23 @@
 
 <script>
 import RecipeListItem from './RecipeListItem.vue'
-import recipes from '../../data/recipes'
+import recipesList from '../../data/recipes'
 
 export default {
   name: 'RecipeList',
   components: {
     RecipeListItem
   },
-  setup() {
-    return {
-      recipes
+  props: {
+    me: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    recipes() {
+      // TODO: Replace with actual user ID
+      return this.me ? recipesList.filter(recipe => recipe.author.id === 1) : recipesList
     }
   },
 }
