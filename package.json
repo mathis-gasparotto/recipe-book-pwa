@@ -11,6 +11,7 @@
     "open:android": "cap open android"
   },
   "dependencies": {
+    "@fortawesome/vue-fontawesome": "^3.0.6",
     "remarkable": "^2.0.1",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5"

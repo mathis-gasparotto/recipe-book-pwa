@@ -2,7 +2,7 @@
   <div class="text-center">
     <h1 class="mb-4">Recipe Details</h1>
     <h2 class="mb-12">{{ recipe.title }}</h2>
-    <p class="text-sm">{{ recipe.author }} - {{ recipe.createdAt === recipe.updatedAt || !recipe.updatedAt ? 'Created: ' + formatting().dateTimeFormattingNumeric(recipe.createdAt) : 'Updated: ' + formatting().dateTimeFormattingNumeric(recipe.updatedAt) }}</p>
+    <p class="text-sm">{{ recipe.author.name }} - {{ recipe.createdAt === recipe.updatedAt || !recipe.updatedAt ? 'Created: ' + formatting().dateTimeFormattingNumeric(recipe.createdAt) : 'Updated: ' + formatting().dateTimeFormattingNumeric(recipe.updatedAt) }}</p>
     <p class="text-sm font-bold">{{ recipe.cookingTime }} min</p>
     <p v-html="recipe.description"></p>
     <h3 class="mt-10 mb-4">Recipe Ingredients</h3>
