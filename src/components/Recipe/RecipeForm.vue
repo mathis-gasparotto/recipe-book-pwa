@@ -86,7 +86,6 @@
 </template>
 
 <script>
-import ingredients from '../../data/ingredients'
 import Tesseract from 'tesseract.js'
 
 export default {
@@ -108,6 +107,8 @@ export default {
     }
   },
   setup() {
+    const ingredients = JSON.parse(localStorage.getItem('ingredients'))
+
     return {
       ingredients
     }
