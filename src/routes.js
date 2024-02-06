@@ -36,7 +36,9 @@ const routes = [
     name: 'Liste de Courses',
     svgPaths: [
       'M16 2H1a1 1 0 0 1 0-2h15a1 1 0 1 1 0 2Zm0 6H1a1 1 0 0 1 0-2h15a1 1 0 1 1 0 2Zm0 6H1a1 1 0 0 1 0-2h15a1 1 0 0 1 0 2Z'
-    ]
+    ],
+    svgViewBox: '0 0 20 20',
+    toNavbar: true
   },
 ]
 

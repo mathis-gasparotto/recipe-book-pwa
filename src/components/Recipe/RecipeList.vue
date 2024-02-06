@@ -6,7 +6,7 @@
 
 <script>
 import RecipeListItem from './RecipeListItem.vue'
-import recipes from '../data/recipes'
+import recipes from '../../data/recipes'
 
 export default {
   name: 'RecipeList',
