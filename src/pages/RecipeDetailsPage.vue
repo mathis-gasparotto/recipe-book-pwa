@@ -23,7 +23,7 @@
     <p v-html="formatting().mdToHtml(recipe.description)"></p>
     <h3 class="mt-10 mb-4">Recipe Ingredients</h3>
     <ul>
-      <li v-for="ingr in recipe.ingredients" :key="ingr.id">{{ ingr.name }} <span class="font-bold"> x {{ ingr.quantity
+      <li v-for="ingr in recipe.ingredients" :key="ingr.ingredient.id">{{ ingr.ingredient.name }} <span class="font-bold"> x {{ ingr.quantity
       }}{{ ingr.unit }}</span></li>
     </ul>
     <div class="mt-6">
@@ -80,7 +80,7 @@ export default {
     editRecipe() {
       console.log({ 
         ...this.recipeForEdit,
-        ingredients: this.recipeForEdit.ingredients.filter(i => i.id !== null)
+        ingredients: this.recipeForEdit.ingredients.filter(i => i.ingredient !== null)
       })
       this.$emit('edit')
       this.showEditModal = false

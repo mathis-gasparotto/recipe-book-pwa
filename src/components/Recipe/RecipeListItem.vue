@@ -74,7 +74,7 @@ export default {
     editRecipe() {
       console.log({ 
         ...this.recipeForEdit,
-        ingredients: this.recipeForEdit.ingredients.filter(i => i.id !== null)
+        ingredients: this.recipeForEdit.ingredients.filter(i => i.ingredient !== null)
       })
       this.$emit('edit')
       this.showEditModal = false
