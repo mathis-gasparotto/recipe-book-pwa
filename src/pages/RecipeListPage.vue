@@ -1,10 +1,10 @@
 <template>
-  <h1 class="text-4xl mb-12">Recipe List</h1>
+  <h1 class="mb-12">Recipe List</h1>
   <RecipeList />
 </template>
 
 <script>
-import RecipeList from '../components/RecipeList.vue'
+import RecipeList from '../components/Recipe/RecipeList.vue'
 
 export default {
   name: 'RecipeListPage',
