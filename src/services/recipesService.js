@@ -1,12 +1,13 @@
 import { getUser } from "./userService"
 
-export function updateRecipe (recipeId, recipe) {
+export function updateRecipe (recipeId, newRecipe) {
   let recipeList = JSON.parse(localStorage.getItem('recipes'))
-  const index = recipeList.findIndex(r => r.id === recipeId)
+  const index = recipeList.findIndex(r => r.id == recipeId)
   const now = new Date().toISOString()
-  recipeList[index] = { 
-    ...recipe,
-    ingredients: recipe.ingredients.filter(i => i.ingredient !== null),
+  recipeList[index] = {
+    ...recipeList[index],
+    ...newRecipe,
+    ingredients: newRecipe.ingredients.filter(i => i.ingredient !== null),
     updatedAt: now
   }
   localStorage.setItem('recipes', JSON.stringify(recipeList))
@@ -15,8 +16,7 @@ export function updateRecipe (recipeId, recipe) {
 
 export function deleteRecipe (recipeId) {
   let recipeList = JSON.parse(localStorage.getItem('recipes'))
-  const index = recipeList.findIndex(r => r.id === recipeId)
-  recipeList.splice(index, 1)
+  recipeList.filter(r => r.id != recipeId)
   localStorage.setItem('recipes', JSON.stringify(recipeList))
   return recipeList
 }

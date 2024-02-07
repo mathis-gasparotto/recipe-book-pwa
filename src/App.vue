@@ -16,6 +16,7 @@ import { useRoute } from 'vue-router'
 import user from './data/user'
 import recipes from './data/recipes'
 import ingredients from './data/ingredients'
+import { initShoppingList } from './services/shoppingListService'
 
 export default {
   setup() {
@@ -28,6 +29,8 @@ export default {
     NavBar
   },
   created() {
+    initShoppingList()
+    // localStorage.setItem('shopppingList', JSON.stringify([]))
     // localStorage.setItem('user', JSON.stringify(user))
     // localStorage.setItem('recipes', JSON.stringify(recipes))
     // localStorage.setItem('ingredients', JSON.stringify(ingredients))

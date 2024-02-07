@@ -15,26 +15,26 @@
       {
         "ingredient": {
           "id": 1,
-          "name": "Noodles"
+          "name": "Noodles",
+          "unit": "ml"
         },
-        "quantity": 1,
-        "unit": "ml"
+        "quantity": 1
       },
       {
         "ingredient": {
           "id": 2,
-          "name": "Seasoning"
+          "name": "Seasoning",
+          "unit": "ml"
         },
-        "quantity": 1,
-        "unit": "ml"
+        "quantity": 1
       },
       {
         "ingredient": {
           "id": 3,
-          "name": "Seafood"
+          "name": "Seafood",
+          "unit": "ml"
         },
-        "quantity": 1,
-        "unit": "ml"
+        "quantity": 1
       }
     ]
   },
@@ -54,26 +54,26 @@
       {
         "ingredient": {
           "id": 1,
-          "name": "Noodles"
+          "name": "Noodles",
+          "unit": "ml"
         },
-        "quantity": 1,
-        "unit": "ml"
+        "quantity": 1
       },
       {
         "ingredient": {
           "id": 2,
-          "name": "Seasoning"
+          "name": "Seasoning",
+          "unit": "ml"
         },
-        "quantity": 1,
-        "unit": "ml"
+        "quantity": 1
       },
       {
         "ingredient": {
           "id": 3,
-          "name": "Seafood"
+          "name": "Seafood",
+          "unit": "ml"
         },
-        "quantity": 1,
-        "unit": "ml"
+        "quantity": 1
       }
     ]
   },
@@ -93,26 +93,26 @@
       {
         "ingredient": {
           "id": 1,
-          "name": "Noodles"
+          "name": "Noodles",
+          "unit": "ml"
         },
-        "quantity": 1,
-        "unit": "ml"
+        "quantity": 1
       },
       {
         "ingredient": {
           "id": 2,
-          "name": "Seasoning"
+          "name": "Seasoning",
+          "unit": "ml"
         },
-        "quantity": 1,
-        "unit": "ml"
+        "quantity": 1
       },
       {
         "ingredient": {
           "id": 3,
-          "name": "Seafood"
+          "name": "Seafood",
+          "unit": "ml"
         },
-        "quantity": 1,
-        "unit": "ml"
+        "quantity": 1
       }
     ]
   }
