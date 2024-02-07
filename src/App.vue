@@ -28,7 +28,7 @@ export default {
     NavBar
   },
   created() {
-    // localStorage.setItem('getUser', JSON.stringify(user))
+    // localStorage.setItem('user', JSON.stringify(user))
     // localStorage.setItem('recipes', JSON.stringify(recipes))
     // localStorage.setItem('ingredients', JSON.stringify(ingredients))
   }
