@@ -3,8 +3,7 @@ import './style.css'
 import App from './App.vue'
 import routes from './routes'
 import { createRouter, createWebHistory } from 'vue-router'
-
-const recipes = JSON.parse(localStorage.getItem('recipes')) || []
+import { getRecipe } from './services/recipesService'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -14,7 +13,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.name === 'Recipe Details') {
     const recipeId = to.params.id
-    const recipe = recipes.find(recipe => recipe.id == recipeId)
+    const recipe = getRecipe(recipeId)
     if (!recipe) {
       return next({ name: 'Recipes' })
     }
