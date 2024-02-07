@@ -1,5 +1,5 @@
 <template>
-  <div v-if="getUser.id === recipe.author.id">
+  <div v-if="user.id === recipe.author.id">
     <Modal :show="showDeleteModal" title="Delete recipe" acceptText="Yes, delete" declineText="Cancel"
       @accept="deleteRecipe" @decline="showDeleteModal = false" @close="showDeleteModal = false">
       <p>Are you sure you want to delete this recipe?</p>
@@ -12,7 +12,7 @@
   <div class="text-center">
     <h1 class="mb-4">Recipe Details</h1>
     <h2 class="mb-12">{{ recipe.title }}</h2>
-    <div class="flex justify-center" v-if="recipe.author.id === getUser.id">
+    <div class="flex justify-center" v-if="recipe.author.id === user.id">
       <Button text="Edit" color="blue" @click="showEdit" />
       <Button text="Delete" color="red" @click="showDeleteModal = true" />
     </div>
@@ -38,7 +38,8 @@ import formatting from '../services/formatting'
 import Button from '../components/Button.vue'
 import Modal from '../components/Modal.vue'
 import RecipeForm from '../components/Recipe/RecipeForm.vue'
-import { getRecipe, updateRecipe } from '../services/recipesService'
+import { deleteRecipe, getRecipe, updateRecipe } from '../services/recipesService'
+import { getUser } from '../services/userService'
 
 export default {
   name: 'RecipeDetailsPage',
@@ -48,11 +49,11 @@ export default {
     RecipeForm
   },
   setup() {
-    const getUser = JSON.parse(localStorage.getItem('getUser'))
+    const user = getUser()
 
     return {
       formatting,
-      getUser
+      user
     }
   },
   data() {
@@ -75,18 +76,21 @@ export default {
     },
     showEdit() {
       this.showEditModal = true
-      this.recipeForEdit = { ...this.recipe }
+      this.recipeForEdit = {
+        ...this.recipe,
+        ingredients: [
+          ...this.recipe.ingredients
+        ]
+      }
     },
     editRecipe() {
       updateRecipe(this.recipeForEdit.id, this.recipeForEdit)
       this.reloadData()
-      this.$emit('edit')
       this.showEditModal = false
     },
     deleteRecipe() {
-      console.log('Delete recipe')
-      this.$emit('delete')
-      this.showDeleteModal = false
+      deleteRecipe(this.recipe.id)
+      this.$router.push({ name: 'Recipes' })
     }
   }
 }
