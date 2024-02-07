@@ -24,7 +24,7 @@
     <h3 class="mt-10 mb-4">Recipe Ingredients</h3>
     <ul>
       <li v-for="ingr in recipe.ingredients" :key="ingr.ingredient.id">{{ ingr.ingredient.name }} <span class="font-bold"> x {{ ingr.quantity
-      }}{{ ingr.unit }}</span></li>
+      }}{{ ingr.ingredient.unit ? ingr.ingredient.unit : '' }}</span></li>
     </ul>
     <div class="mt-6">
       <Button text="Add Ingredients to shop list" @click="addToShopList" />
@@ -40,6 +40,7 @@ import Modal from '../components/Modal.vue'
 import RecipeForm from '../components/Recipe/RecipeForm.vue'
 import { deleteRecipe, getRecipe, updateRecipe } from '../services/recipesService'
 import { getUser } from '../services/userService'
+import { addIngredientListToShoppingList } from '../services/shoppingListService'
 
 export default {
   name: 'RecipeDetailsPage',
@@ -72,7 +73,7 @@ export default {
       this.recipe = getRecipe(this.$route.params.id)
     },
     addToShopList() {
-      console.log(this.recipe.ingredients)
+      addIngredientListToShoppingList(this.recipe.ingredients)
     },
     showEdit() {
       this.showEditModal = true
