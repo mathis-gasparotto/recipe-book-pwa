@@ -29,7 +29,12 @@ createApp(App).use(router).mount('#app')
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async function() {
     try {
-      const registration = await navigator.serviceWorker.register(    import.meta.env.MODE === 'production' ? '/sw.js' : '/dev-sw.js?dev-sw',    { type: import.meta.env.MODE === 'production' ? 'classic' : 'module' }  )
+      const registration = await navigator.serviceWorker.register(
+        // import.meta.env.MODE === 'production' ? '/sw.js' : '/dev-sw.js?dev-sw',
+        // { type: import.meta.env.MODE === 'production' ? 'classic' : 'module' }
+        '/dev-sw.js?dev-sw',
+        'module'
+      )
       console.log('SW registered', registration)
       const messaging = getMessaging();
       onMessage(messaging, (payload) => {
@@ -37,7 +42,8 @@ if ('serviceWorker' in navigator) {
         new Notification('Nouvelle recette');
         // ...
       });
-      getToken(messaging, { serviceWorkerRegistration: registration,
+      getToken(messaging, {
+        serviceWorkerRegistration: registration,
         vapidKey: import.meta.env.VITE_FIREBASE_MESSAGING_PUBLIC_VAPID_KEY
       }).then((currentToken) => {
         if (currentToken) {
