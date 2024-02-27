@@ -33,7 +33,7 @@ if ('serviceWorker' in navigator) {
         // import.meta.env.MODE === 'production' ? '/sw.js' : '/dev-sw.js?dev-sw',
         // { type: import.meta.env.MODE === 'production' ? 'classic' : 'module' }
         '/dev-sw.js?dev-sw',
-        'module'
+        { type: 'module' }
       )
       console.log('SW registered', registration)
       const messaging = getMessaging();
