@@ -7,8 +7,11 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
+      strategies: 'injectManifest',
+      filename: 'service-worker.js',
+      srcDir: 'src',
       registerType: 'autoUpdate',
-      injectRegister: 'auto',
+      injectRegister: null,
       devOptions: {
         enabled: true
       },
