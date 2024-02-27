@@ -13,10 +13,10 @@
 <script>
 import NavBar from './components/NavBar.vue'
 import { useRoute } from 'vue-router'
-import user from './data/user'
-import recipes from './data/recipes'
-import ingredients from './data/ingredients'
 import { initShoppingList } from './services/shoppingListService'
+import { initUser } from './services/userService'
+import { initRecipes } from './services/recipesService'
+import { initIngredients } from './services/ingredientsService'
 
 export default {
   setup() {
@@ -30,10 +30,14 @@ export default {
   },
   created() {
     initShoppingList()
-    localStorage.getItem('shopppingList') || localStorage.setItem('shopppingList', JSON.stringify([]))
-    localStorage.getItem('user') || localStorage.setItem('user', JSON.stringify(user))
-    localStorage.getItem('recipes') || localStorage.setItem('recipes', JSON.stringify(recipes))
-    localStorage.getItem('ingredients') || localStorage.setItem('ingredients', JSON.stringify(ingredients))
+    initUser()
+    initRecipes()
+    initIngredients()
+    window.Tesseract = Tesseract.create({
+      workerPath: '/assets/lib/tesseract.js-worker_5.0.4.js',
+      langPath: '/assets/lib/lang/tesseract.js-fra.traineddata.gz',
+      corePath: '/assets/lib/tesseract-core.js',
+    })
   }
 }
 </script>
