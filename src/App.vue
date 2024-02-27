@@ -30,10 +30,10 @@ export default {
   },
   created() {
     initShoppingList()
-    // localStorage.setItem('shopppingList', JSON.stringify([]))
-    // localStorage.setItem('user', JSON.stringify(user))
-    // localStorage.setItem('recipes', JSON.stringify(recipes))
-    // localStorage.setItem('ingredients', JSON.stringify(ingredients))
+    localStorage.getItem('shopppingList') || localStorage.setItem('shopppingList', JSON.stringify([]))
+    localStorage.getItem('user') || localStorage.setItem('user', JSON.stringify(user))
+    localStorage.getItem('recipes') || localStorage.setItem('recipes', JSON.stringify(recipes))
+    localStorage.getItem('ingredients') || localStorage.setItem('ingredients', JSON.stringify(ingredients))
   }
 }
 </script>
