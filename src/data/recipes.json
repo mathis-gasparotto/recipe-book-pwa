@@ -13,27 +13,15 @@
     "updatedAt": "2024-01-10T19:00:00Z",
     "ingredients": [
       {
-        "ingredient": {
-          "id": 1,
-          "name": "Noodles",
-          "unit": "ml"
-        },
+        "ingredient": 1,
         "quantity": 1
       },
       {
-        "ingredient": {
-          "id": 2,
-          "name": "Seasoning",
-          "unit": "ml"
-        },
+        "ingredient": 2,
         "quantity": 1
       },
       {
-        "ingredient": {
-          "id": 3,
-          "name": "Seafood",
-          "unit": "ml"
-        },
+        "ingredient": 3,
         "quantity": 1
       }
     ]
@@ -52,27 +40,15 @@
     "updatedAt": "2024-01-10T19:00:00Z",
     "ingredients": [
       {
-        "ingredient": {
-          "id": 1,
-          "name": "Noodles",
-          "unit": "ml"
-        },
+        "ingredient": 1,
         "quantity": 1
       },
       {
-        "ingredient": {
-          "id": 2,
-          "name": "Seasoning",
-          "unit": "ml"
-        },
+        "ingredient": 2,
         "quantity": 1
       },
       {
-        "ingredient": {
-          "id": 3,
-          "name": "Seafood",
-          "unit": "ml"
-        },
+        "ingredient": 3,
         "quantity": 1
       }
     ]
@@ -91,27 +67,15 @@
     "updatedAt": "2024-01-10T19:00:00Z",
     "ingredients": [
       {
-        "ingredient": {
-          "id": 1,
-          "name": "Noodles",
-          "unit": "ml"
-        },
+        "ingredient": 1,
         "quantity": 1
       },
       {
-        "ingredient": {
-          "id": 2,
-          "name": "Seasoning",
-          "unit": "ml"
-        },
+        "ingredient": 2,
         "quantity": 1
       },
       {
-        "ingredient": {
-          "id": 3,
-          "name": "Seafood",
-          "unit": "ml"
-        },
+        "ingredient": 3,
         "quantity": 1
       }
     ]

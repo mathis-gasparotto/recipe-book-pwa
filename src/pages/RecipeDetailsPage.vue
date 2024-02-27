@@ -41,6 +41,7 @@ import RecipeForm from '../components/Recipe/RecipeForm.vue'
 import { deleteRecipe, getRecipe, updateRecipe } from '../services/recipesService'
 import { getUser } from '../services/userService'
 import { addIngredientListToShoppingList } from '../services/shoppingListService'
+import { getIngredientById } from '../services/ingredientsService'
 
 export default {
   name: 'RecipeDetailsPage',
@@ -71,6 +72,9 @@ export default {
   methods: {
     reloadData() {
       this.recipe = getRecipe(this.$route.params.id)
+      this.recipe.ingredients.forEach(i => {
+        i.ingredient = getIngredientById(i.ingredient)
+      })
     },
     addToShopList() {
       addIngredientListToShoppingList(this.recipe.ingredients)
