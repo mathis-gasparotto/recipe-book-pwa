@@ -1,4 +1,5 @@
-import { getUser } from "./userService"
+import { getUser } from './userService'
+import recipes from '../data/recipes'
 
 export function updateRecipe (recipeId, newRecipe) {
   let recipeList = JSON.parse(localStorage.getItem('recipes'))
@@ -46,4 +47,8 @@ export function createRecipe (recipe) {
   recipeList.push(newRecipe)
   localStorage.setItem('recipes', JSON.stringify(recipeList))
   return newRecipe
+}
+
+export function initRecipes () {
+  localStorage.getItem('recipes') || localStorage.setItem('recipes', JSON.stringify(recipes))
 }

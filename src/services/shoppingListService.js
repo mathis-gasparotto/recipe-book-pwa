@@ -95,7 +95,5 @@ export function uncheckAllIngredients () {
 }
 
 export function initShoppingList () {
-  if (!getShoppingList()) {
-    localStorage.setItem('shopppingList', JSON.stringify([]))
-  }
+  localStorage.getItem('shopppingList') || localStorage.setItem('shopppingList', JSON.stringify([]))
 }
