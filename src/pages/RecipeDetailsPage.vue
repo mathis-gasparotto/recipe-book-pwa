@@ -39,7 +39,6 @@ import Button from '../components/Button.vue'
 import Modal from '../components/Modal.vue'
 import RecipeForm from '../components/Recipe/RecipeForm.vue'
 import { deleteRecipe, getRecipe, updateRecipe, getMyRecipe } from '../services/recipesService'
-import { getCurrentUser } from '../services/userService'
 import { addIngredientListToShoppingList } from '../services/shoppingListService'
 
 export default {
@@ -50,11 +49,9 @@ export default {
     RecipeForm
   },
   setup() {
-    const user = getCurrentUser()
 
     return {
-      formatting,
-      user
+      formatting
     }
   },
   data() {
