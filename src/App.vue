@@ -17,7 +17,6 @@ import { initShoppingList } from './services/shoppingListService'
 import { initUser } from './services/userService'
 import { initRecipes } from './services/recipesService'
 import { initIngredients } from './services/ingredientsService'
-import { getMessaging, getToken } from "firebase/messaging";
 
 export default {
   setup() {
@@ -34,13 +33,6 @@ export default {
     initUser()
     initRecipes()
     initIngredients()
-    // window.Tesseract = Tesseract.create({
-    //   workerPath: '/assets/lib/tesseract.js-worker_5.0.4.js',
-    //   langPath: '/assets/lib/lang/tesseract.js-fra.traineddata.gz',
-    //   corePath: '/assets/lib/tesseract-core.js',
-    // })
-    
-    
   }
 }
 </script>
