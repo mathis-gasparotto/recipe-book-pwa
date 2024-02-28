@@ -35,7 +35,6 @@
 
 <script>
 import { deleteRecipe, updateRecipe } from '../../services/recipesService'
-import { getCurrentUser } from '../../services/userService'
 import Button from '../Button.vue'
 import Modal from '../Modal.vue'
 import RecipeForm from './RecipeForm.vue'
@@ -56,13 +55,6 @@ export default {
     recipe: {
       type: Object,
       required: true
-    }
-  },
-  setup() {
-    const user = getCurrentUser()
-
-    return {
-      user
     }
   },
   data() {
