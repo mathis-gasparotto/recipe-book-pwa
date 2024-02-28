@@ -1,61 +1,74 @@
-import { getCurrentUser, getUserByID } from './userService'
 import recipes from '../data/recipes'
+import myRecipes from '../data/my_recipes'
 
 export function updateRecipe (recipeId, newRecipe) {
-  let recipeList = JSON.parse(localStorage.getItem('recipes'))
+  let recipeList = getMyRecipes()
   const index = recipeList.findIndex(r => r.id == recipeId)
   const now = new Date().toISOString()
   recipeList[index] = {
     ...recipeList[index],
     ...newRecipe,
-    ingredients: newRecipe.ingredients.filter(i => i.ingredient !== null),
+    ingredients: newRecipe.ingredients.filter(i => i.ingredient.name !== null && i.ingredient.name !== '' && i.quantity > 0).map(i => ({
+      ingredient: i.ingredient,
+      quantity: i.quantity,
+      custom: i.custom || false
+    })),
     updatedAt: now
   }
-  localStorage.setItem('recipes', JSON.stringify(recipeList))
+  localStorage.setItem('myRecipes', JSON.stringify(recipeList))
   return recipeList[index]
 }
 
 export function deleteRecipe (recipeId) {
-  let recipeList = JSON.parse(localStorage.getItem('recipes'))
+  let recipeList = getMyRecipes()
   recipeList.filter(r => r.id != recipeId)
-  localStorage.setItem('recipes', JSON.stringify(recipeList))
+  localStorage.setItem('myRecipes', JSON.stringify(recipeList))
   return recipeList
 }
 
 export function getRecipe (recipeId) {
   let recipeList = getRecipes()
-  let recipe = recipeList.find(r => r.id == recipeId)
-  recipe.author = getUserByID(recipe.author)
-  return recipe
+  return recipeList.find(r => r.id == recipeId)
 }
 
 export function getRecipes () {
   return JSON.parse(localStorage.getItem('recipes'))
 }
 
+export function getMyRecipe (recipeId) {
+  let recipeList = getMyRecipes()
+  return recipeList.find(r => r.id == recipeId)
+}
+
 export function getMyRecipes () {
-  const user = getCurrentUser()
-  return JSON.parse(localStorage.getItem('recipes')).filter(recipe => recipe.author === user.id)
+  console.log(JSON.parse(localStorage.getItem('myRecipes')))
+  return JSON.parse(localStorage.getItem('myRecipes'))
 }
 
 export function createRecipe (recipe) {
-  let recipeList = JSON.parse(localStorage.getItem('recipes'))
-  const author = getCurrentUser().id
-  const id = recipeList[recipeList.length - 1].id + 1
-  const now = new Date().toISOString()
+  let recipeList = getMyRecipes()
+  const now = new Date()
   const newRecipe = {
     ...recipe,
-    ingredients: recipe.ingredients.filter(i => i.ingredient !== null),
-    id,
-    author,
-    createdAt: now,
-    updatedAt: now
+    ingredients: recipe.ingredients.filter(i => i.ingredient.name !== null && i.ingredient.name !== '' && i.quantity > 0).map(i => ({
+      ingredient: i.ingredient,
+      quantity: i.quantity,
+      custom: i.custom || false
+    })),
+    id: now.getTime(),
+    me: true,
+    createdAt: now.toISOString(),
+    updatedAt: now.toISOString()
   }
   recipeList.push(newRecipe)
-  localStorage.setItem('recipes', JSON.stringify(recipeList))
+  localStorage.setItem('myRecipes', JSON.stringify(recipeList))
   return newRecipe
 }
 
 export function initRecipes () {
   localStorage.getItem('recipes') || localStorage.setItem('recipes', JSON.stringify(recipes))
+}
+
+export function initMyRecipes () {
+  localStorage.getItem('myRecipes') || localStorage.setItem('myRecipes', JSON.stringify(myRecipes))
 }

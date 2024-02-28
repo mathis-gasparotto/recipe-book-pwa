@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 
 export function updateIngredient (ingredientId, newIngredient) {
   let shopppingList = JSON.parse(localStorage.getItem('shopppingList'))
@@ -25,7 +24,7 @@ export function getShoppingList () {
 
 export function addSingleIngredientToShoppingList (ingredient) {
   let shopppingList = JSON.parse(localStorage.getItem('shopppingList'))
-  const id = uuid()
+  const id = Date.now()
   shopppingList.push({
     ingredient,
     checked: false,
@@ -42,7 +41,7 @@ export function addIngredientListToShoppingList (ingredients) {
     if (ingredientItem) {
       ingredientItem.quantity += ingredient.quantity
     } else {
-      const id = uuid()
+      const id = Date.now()
       shopppingList.push({
         id,
         ...ingredient,

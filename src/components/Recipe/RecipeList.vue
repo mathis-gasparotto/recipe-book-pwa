@@ -1,6 +1,6 @@
 <template> 
   <ul class="max-w-xl divide-y divide-gray-200 dark:divide-gray-700 mx-auto">
-    <RecipeListItem v-for="recipe in recipes" :key="recipe" :recipe="recipe" @edit="reloadData" @delete="reloadData" />
+    <RecipeListItem v-for="recipe in recipes" :key="recipe" :recipe="recipe" @edit="reloadData" @delete="reloadData" :me="me" />
   </ul> 
 </template>
 

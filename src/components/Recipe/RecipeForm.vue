@@ -36,33 +36,46 @@
 
     <div class="mb-5">
       <p class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add Ingredients</p>
-      <div v-for="(ingr, index) in recipe.ingredients" :key="index" class="flex mb-4">
+      <div v-for="(ingr, index) in recipe.ingredients" :key="index" class="mb-4" :class="{flex: ingr.ingredient !== 'other'}">
         <select
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          v-model="recipe.ingredients[index].ingredient">
+          v-model="ingr.ingredientId" @change="ingredientSelected(ingr)">
           <option disabled :value="null">-- Choose ingredient --</option>
+          <option :value="'other'">Other</option>
           <option v-for="ingredientData in ingredients" :value="ingredientData.id" :key="ingredientData.id">{{
             ingredientData.name }}</option>
         </select>
         <div class="flex">
-          <input type="number" step="1" min="0" v-model="recipe.ingredients[index].quantity"
-            v-if="recipe.ingredients[index]"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            required>
-          {{ recipe.ingredients[index].ingredient && recipe.ingredients[index].ingredient.unit ? recipe.ingredients[index].ingredient.unit : '' }}
+          <div class="flex" v-if="ingr.ingredient && ingr.ingredientId !== 'other'">
+            <input type="number" step="1" min="0" v-model="ingr.quantity"
+              v-if="ingr"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required>
+            {{ ingr.ingredient && ingr.ingredient.unit ? ingr.ingredient.unit : '' }}
+          </div>
+          <div class="inline-flex" v-else-if="ingr.ingredient">
+            <input type="text" v-model="ingr.ingredient.name"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required>
+            <input type="number" step="1" min="0" v-model="ingr.quantity"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required>
+            <input type="text" v-model="ingr.ingredient.unit"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          </div>
+          <button type="button" @click="deleteIngredient(index)"
+            class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 512 512">
+              <path
+                d="M424 64h-88V48c0-26.467-21.533-48-48-48h-64c-26.467 0-48 21.533-48 48v16H88c-22.056 0-40 17.944-40 40v56c0 8.836 7.164 16 16 16h8.744l13.823 290.283C87.788 491.919 108.848 512 134.512 512h242.976c25.665 0 46.725-20.081 47.945-45.717L439.256 176H448c8.836 0 16-7.164 16-16v-56c0-22.056-17.944-40-40-40zM208 48c0-8.822 7.178-16 16-16h64c8.822 0 16 7.178 16 16v16h-96zM80 104c0-4.411 3.589-8 8-8h336c4.411 0 8 3.589 8 8v40H80zm313.469 360.761A15.98 15.98 0 0 1 377.488 480H134.512a15.98 15.98 0 0 1-15.981-15.239L104.78 176h302.44z"
+                fill="currentColor"></path>
+              <path
+                d="M256 448c8.836 0 16-7.164 16-16V224c0-8.836-7.164-16-16-16s-16 7.164-16 16v208c0 8.836 7.163 16 16 16zM336 448c8.836 0 16-7.164 16-16V224c0-8.836-7.164-16-16-16s-16 7.164-16 16v208c0 8.836 7.163 16 16 16zM176 448c8.836 0 16-7.164 16-16V224c0-8.836-7.164-16-16-16s-16 7.164-16 16v208c0 8.836 7.163 16 16 16z"
+                fill="currentColor"></path>
+            </svg>
+            <span class="sr-only">Delete Ingredient</span>
+          </button>
         </div>
-        <button type="button" @click="deleteIngredient(index)"
-          class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 512 512">
-            <path
-              d="M424 64h-88V48c0-26.467-21.533-48-48-48h-64c-26.467 0-48 21.533-48 48v16H88c-22.056 0-40 17.944-40 40v56c0 8.836 7.164 16 16 16h8.744l13.823 290.283C87.788 491.919 108.848 512 134.512 512h242.976c25.665 0 46.725-20.081 47.945-45.717L439.256 176H448c8.836 0 16-7.164 16-16v-56c0-22.056-17.944-40-40-40zM208 48c0-8.822 7.178-16 16-16h64c8.822 0 16 7.178 16 16v16h-96zM80 104c0-4.411 3.589-8 8-8h336c4.411 0 8 3.589 8 8v40H80zm313.469 360.761A15.98 15.98 0 0 1 377.488 480H134.512a15.98 15.98 0 0 1-15.981-15.239L104.78 176h302.44z"
-              fill="currentColor"></path>
-            <path
-              d="M256 448c8.836 0 16-7.164 16-16V224c0-8.836-7.164-16-16-16s-16 7.164-16 16v208c0 8.836 7.163 16 16 16zM336 448c8.836 0 16-7.164 16-16V224c0-8.836-7.164-16-16-16s-16 7.164-16 16v208c0 8.836 7.163 16 16 16zM176 448c8.836 0 16-7.164 16-16V224c0-8.836-7.164-16-16-16s-16 7.164-16 16v208c0 8.836 7.163 16 16 16z"
-              fill="currentColor"></path>
-          </svg>
-          <span class="sr-only">Delete Ingredient</span>
-        </button>
       </div>
       <button type="button" @click="addIngredient"
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -112,6 +125,17 @@ export default {
       ingredients
     }
   },
+  created() {
+    this.formData.ingredients.forEach(ingr => {
+      if (ingr.ingredient && !ingr.ingredient.custom) {
+        ingr.ingredientId = ingr.ingredient.id
+      } else if (ingr.ingredient) {
+        ingr.ingredientId = 'other'
+      } else {
+        ingr.ingredientId = null
+      }
+    })
+  },
   computed: {
     recipe: {
       get() {
@@ -126,13 +150,26 @@ export default {
     addIngredient() {
       this.recipe.ingredients.push({
         ingredient: null,
+        ingredientId: null,
         quantity: 0
       })
+    },
+    ingredientSelected(ingr) {
+      if (ingr.ingredientId === 'other') {
+        ingr.ingredient = {
+          name: '',
+          unit: '',
+          custom: true,
+          id: Date.now()
+        }
+      } else if(ingr.ingredientId) {
+        ingr.ingredient = this.ingredients.find(i => i.id === ingr.ingredientId)
+      }
     },
     submit() {
       this.$emit('submit', {
         ...this.recipe,
-        ingredients: this.recipe.ingredients.filter(i => i.ingredient !== null)
+        ingredients: this.recipe.ingredients.filter(i => i.ingredient.name !== null && i.ingredient.name !== '' && i.quantity > 0)
       })
     },
     deleteIngredient(index) {

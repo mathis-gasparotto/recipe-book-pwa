@@ -1,5 +1,5 @@
 <template>
-  <div v-if="user.id === recipe.author">
+  <div v-if="me">
     <Modal :show="showDeleteModal" title="Delete recipe" acceptText="Yes, delete" declineText="Cancel"
       @accept="deleteRecipe" @decline="showDeleteModal = false" @close="showDeleteModal = false">
       <p>Are you sure you want to delete this recipe?</p>
@@ -20,7 +20,7 @@
             {{ recipe.shortDescription }}
           </p>
         </div>
-        <div v-if="user.id === recipe.author"
+        <div v-if="me"
           class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
           <Button text="Edit" color="blue" @click="showEdit" />
           <Button text="Delete" color="red" @click="showDeleteModal = true" />
@@ -49,6 +49,10 @@ export default {
     RecipeForm
   },
   props: {
+    me: {
+      type: Boolean,
+      default: false
+    },
     recipe: {
       type: Object,
       required: true
