@@ -1,5 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import { getDatabase, set, ref, onValue, remove, update } from 'firebase/database'
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { setCurrentUser } from './userService'
 
 export const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -15,6 +17,7 @@ export const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 const db = getDatabase(app)
+const auth = getAuth(app)
 
 export function createData(refStr, data) {
   set(ref(db, refStr), data)
@@ -28,12 +31,34 @@ export function removeData(refStr) {
   remove(ref(db, refStr))
 }
 
-export function initData(refStr, localStorageKey) {
+export function initData(refStr, localStorageKey, initValue = null) {
   const dataRef = ref(db, refStr)
   return onValue(dataRef, (snapshot) => {
     const data = snapshot.val()
     if (localStorageKey) {
-      localStorage.setItem(localStorageKey, JSON.stringify(data))
+      localStorage.setItem(localStorageKey, initValue && !data ? JSON.stringify(initValue) : JSON.stringify(data))
     }
+  })
+}
+
+export function registerUser(email, password) {
+  return createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    setCurrentUser(userCredential.user)
+    return userCredential.user
+  })
+  .catch((error) => {
+    throw new Error(error)
+  })
+}
+
+export function loginUser(email, password) {
+  return signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    setCurrentUser(userCredential.user)
+    return userCredential.user
+  })
+  .catch((error) => {
+    throw new Error(error)
   })
 }

@@ -14,9 +14,9 @@
 import NavBar from './components/NavBar.vue'
 import { useRoute } from 'vue-router'
 import { initShoppingList } from './services/shoppingListService'
-import { initCurrentUser } from './services/userService'
-import { initRecipes, initMyRecipes } from './services/recipesService'
+import { initRecipes, initMyRecipes, getMyRecipe, getRecipe } from './services/recipesService'
 import { initIngredients } from './services/ingredientsService'
+import { registerUser, loginUser } from './services/firebaseService'
 
 export default {
   setup() {
@@ -29,8 +29,9 @@ export default {
     NavBar
   },
   created() {
+    // loginUser('test@test.tes', 'testtest')
+    // registerUser('test@test.tes', 'testtest')
     initShoppingList()
-    initCurrentUser()
     initRecipes()
     initMyRecipes()
     initIngredients()

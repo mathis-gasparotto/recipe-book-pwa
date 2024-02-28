@@ -9,7 +9,7 @@
       <RecipeForm hideSubmit v-model:formData="recipeForEdit" />
     </Modal>
   </div>
-  <div class="text-center">
+  <div class="text-center" v-if="!load">
     <h1 class="mb-4">Recipe Details</h1>
     <h2 class="mb-12">{{ recipe.title }}</h2>
     <div class="flex justify-center" v-if="recipe.me">
@@ -59,7 +59,8 @@ export default {
       showEditModal: false,
       showDeleteModal: false,
       recipeForEdit: {},
-      recipe: {}
+      recipe: {},
+      load: true
     }
   },
   created() {
@@ -68,6 +69,8 @@ export default {
   methods: {
     reloadData() {
       this.recipe = getRecipe(this.$route.params.id) || getMyRecipe(this.$route.params.id)
+      console.log(this.recipe)
+      this.load = false
     },
     addToShopList() {
       addIngredientListToShoppingList(this.recipe.ingredients)
