@@ -14,7 +14,7 @@
 import NavBar from './components/NavBar.vue'
 import { useRoute } from 'vue-router'
 import { initShoppingList } from './services/shoppingListService'
-import { initUser } from './services/userService'
+import { initCurrentUser, initUsers } from './services/userService'
 import { initRecipes } from './services/recipesService'
 import { initIngredients } from './services/ingredientsService'
 
@@ -30,8 +30,9 @@ export default {
   },
   created() {
     initShoppingList()
-    initUser()
+    initCurrentUser()
     initRecipes()
+    initUsers()
     initIngredients()
   }
 }

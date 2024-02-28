@@ -5,8 +5,7 @@
 </template>
 
 <script>
-import { getRecipes } from '../../services/recipesService'
-import { getUser } from '../../services/userService'
+import { getRecipes, getMyRecipes } from '../../services/recipesService'
 import RecipeListItem from './RecipeListItem.vue'
 
 export default {
@@ -42,9 +41,7 @@ export default {
   },
   methods: {
     reloadData() {
-      const recipesList = getRecipes()
-      const user = getUser()
-      this.recipes = this.me ? recipesList.filter(recipe => recipe.author.id === user.id) : recipesList
+      this.recipes = this.me ? getMyRecipes() : getRecipes()
     }
   }
 }
