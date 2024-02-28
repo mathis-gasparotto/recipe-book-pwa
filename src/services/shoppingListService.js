@@ -1,97 +1,95 @@
+import { createData, initData, removeData, updateData } from "./firebaseService"
+import { getCurrentUser } from "./userService"
+
 export function updateIngredient (ingredientId, newIngredient) {
-  let shopppingList = JSON.parse(localStorage.getItem('shopppingList'))
-  const index = shopppingList.findIndex(r => r.id == ingredientId)
-  shopppingList[index] = {
-    ...shopppingList[index],
+  let shoppingList = JSON.parse(localStorage.getItem('shoppingList'))
+  shoppingList[ingredientId] = {
+    ...shoppingList[ingredientId],
     ...newIngredient
   }
-  console.log(shopppingList)
-  localStorage.setItem('shopppingList', JSON.stringify(shopppingList))
-  return shopppingList[index]
+  updateData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + shoppingList[ingredientId].id, shoppingList[ingredientId])
+  return shoppingList[ingredientId]
 }
 
 export function deleteIngredient (ingredientId) {
-  let shopppingList = JSON.parse(localStorage.getItem('shopppingList'))
-  shopppingList.filter(r => r.id != ingredientId)
-  localStorage.setItem('shopppingList', JSON.stringify(shopppingList))
-  return shopppingList
+  let shoppingList = JSON.parse(localStorage.getItem('shoppingList'))
+  shoppingList.filter(r => r.id != ingredientId)
+  localStorage.setItem('shoppingList', JSON.stringify(shoppingList))
+  return shoppingList
 }
 
 export function getShoppingList () {
-  return JSON.parse(localStorage.getItem('shopppingList'))
+  return JSON.parse(localStorage.getItem('shoppingList'))
 }
 
 export function addSingleIngredientToShoppingList (ingredient) {
-  let shopppingList = JSON.parse(localStorage.getItem('shopppingList'))
   const id = Date.now()
-  shopppingList.push({
+  const newIngredient = {
     ingredient,
     checked: false,
     id
-  })
-  localStorage.setItem('shopppingList', JSON.stringify(shopppingList))
-  return JSON.parse(localStorage.getItem('shopppingList'))
+  }
+  createData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + newIngredient.id, newIngredient)
+  return newIngredient
 }
 
 export function addIngredientListToShoppingList (ingredients) {
-  let shopppingList = JSON.parse(localStorage.getItem('shopppingList'))
+  let shoppingList = Object.values(JSON.parse(localStorage.getItem('shoppingList')))
   ingredients.forEach(ingredient => {
-    let ingredientItem = shopppingList.find(ingr => ingr.ingredient.id === ingredient.ingredient.id)
+    let ingredientItem = shoppingList.find(ingr => ingr.ingredient.id === ingredient.ingredient.id)
     if (ingredientItem) {
       ingredientItem.quantity += ingredient.quantity
+      updateData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + ingredientItem.id, ingredientItem)
     } else {
       const id = Date.now()
-      shopppingList.push({
+      const newIngredient = {
         id,
         ...ingredient,
         checked: false
-      })
+      }
+      createData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + newIngredient.id, newIngredient)
     }
   })
-  localStorage.setItem('shopppingList', JSON.stringify(shopppingList))
-  return JSON.parse(localStorage.getItem('shopppingList'))
+  return shoppingList
 }
 
 export function checkIngredient (ingredientId) {
-  const shopppingList = JSON.parse(localStorage.getItem('shopppingList'))
-  const ingredient = shopppingList.find(ingr => ingr.id === ingredientId)
+  const shoppingList = Object.values(JSON.parse(localStorage.getItem('shoppingList')))
+  const ingredient = shoppingList.find(ingr => ingr.id === ingredientId)
   ingredient.checked = !ingredient.checked
-  localStorage.setItem('shopppingList', JSON.stringify(shopppingList))
-  return JSON.parse(localStorage.getItem('shopppingList'))
+  localStorage.setItem('shoppingList', JSON.stringify(shoppingList))
+  updateData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + ingredient.id, ingredient)
+  return ingredient
 }
 
 export function removeAllCheckedIngredients () {
-  let shopppingList = JSON.parse(localStorage.getItem('shopppingList'))
-  shopppingList = shopppingList.filter(ingredient => !ingredient.checked)
-  localStorage.setItem('shopppingList', JSON.stringify(shopppingList))
-  return JSON.parse(localStorage.getItem('shopppingList'))
+  let shoppingList = JSON.parse(localStorage.getItem('shoppingList'))
+  Object.keys(shoppingList).forEach(id => {
+    if (shoppingList[id].checked) {
+      removeData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + id)
+    }
+  })
 }
 
 export function removeAllIngredients () {
-  localStorage.setItem('shopppingList', JSON.stringify([]))
-  return JSON.parse(localStorage.getItem('shopppingList'))
+  localStorage.setItem('shoppingList', JSON.stringify([]))
+  removeData('users/' + getCurrentUser().uid + '/shoppingList')
 }
 
 export function checkAllIngredients () {
-  let shopppingList = JSON.parse(localStorage.getItem('shopppingList'))
-  shopppingList = shopppingList.map(ingredient => {
-    ingredient.checked = true
-    return ingredient
+  let shoppingList = JSON.parse(localStorage.getItem('shoppingList'))
+  Object.keys(shoppingList).forEach(id => {
+    updateData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + id, {checked: true})
   })
-  localStorage.setItem('shopppingList', JSON.stringify(shopppingList))
-  return JSON.parse(localStorage.getItem('shopppingList'))
 }
 
 export function uncheckAllIngredients () {
-  let shopppingList = JSON.parse(localStorage.getItem('shopppingList'))
-  shopppingList = shopppingList.map(ingredient => {
-    ingredient.checked = false
-    return ingredient
+  let shoppingList = JSON.parse(localStorage.getItem('shoppingList'))
+  Object.keys(shoppingList).forEach(id => {
+    updateData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + id, {checked: false})
   })
-  localStorage.setItem('shopppingList', JSON.stringify(shopppingList))
-  return JSON.parse(localStorage.getItem('shopppingList'))
 }
 
 export function initShoppingList () {
-  localStorage.getItem('shopppingList') || localStorage.setItem('shopppingList', JSON.stringify([]))
+  initData('users/' + getCurrentUser().uid + '/shoppingList', 'shoppingList', [])
 }
