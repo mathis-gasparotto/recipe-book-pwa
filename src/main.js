@@ -30,10 +30,8 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', async function() {
     try {
       const registration = await navigator.serviceWorker.register(
-        // import.meta.env.MODE === 'production' ? '/sw.js' : '/dev-sw.js?dev-sw',
-        // { type: import.meta.env.MODE === 'production' ? 'classic' : 'module' }
-        '/dev-sw.js?dev-sw',
-        { type: 'module' }
+        import.meta.env.MODE === 'production' ? '/service-worker.js' : '/dev-sw.js?dev-sw',
+        { type: import.meta.env.MODE === 'production' ? 'classic' : 'module' }
       )
       console.log('SW registered', registration)
       const messaging = getMessaging();
