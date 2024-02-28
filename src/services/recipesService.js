@@ -1,5 +1,5 @@
-import recipes from '../data/recipes'
-import myRecipes from '../data/my_recipes'
+import { initData, createData, updateData } from './firebaseService'
+import { getCurrentUser } from './userService'
 
 export function updateRecipe (recipeId, newRecipe) {
   let recipeList = getMyRecipes()
@@ -11,11 +11,11 @@ export function updateRecipe (recipeId, newRecipe) {
     ingredients: newRecipe.ingredients.filter(i => i.ingredient.name !== null && i.ingredient.name !== '' && i.quantity > 0).map(i => ({
       ingredient: i.ingredient,
       quantity: i.quantity,
-      custom: i.custom || false
     })),
     updatedAt: now
   }
   localStorage.setItem('myRecipes', JSON.stringify(recipeList))
+  updateData('usersRecipes/' + getCurrentUser().id + '/' + recipeList[index].id, recipeList[index])
   return recipeList[index]
 }
 
@@ -23,6 +23,7 @@ export function deleteRecipe (recipeId) {
   let recipeList = getMyRecipes()
   recipeList.filter(r => r.id != recipeId)
   localStorage.setItem('myRecipes', JSON.stringify(recipeList))
+  removeData('usersRecipes/' + getCurrentUser().id + '/' + recipeId)
   return recipeList
 }
 
@@ -41,7 +42,6 @@ export function getMyRecipe (recipeId) {
 }
 
 export function getMyRecipes () {
-  console.log(JSON.parse(localStorage.getItem('myRecipes')))
   return JSON.parse(localStorage.getItem('myRecipes'))
 }
 
@@ -52,8 +52,7 @@ export function createRecipe (recipe) {
     ...recipe,
     ingredients: recipe.ingredients.filter(i => i.ingredient.name !== null && i.ingredient.name !== '' && i.quantity > 0).map(i => ({
       ingredient: i.ingredient,
-      quantity: i.quantity,
-      custom: i.custom || false
+      quantity: i.quantity
     })),
     id: now.getTime(),
     me: true,
@@ -62,13 +61,14 @@ export function createRecipe (recipe) {
   }
   recipeList.push(newRecipe)
   localStorage.setItem('myRecipes', JSON.stringify(recipeList))
+  createData('usersRecipes/' + getCurrentUser().id + '/' + newRecipe.id, newRecipe)
   return newRecipe
 }
 
 export function initRecipes () {
-  localStorage.getItem('recipes') || localStorage.setItem('recipes', JSON.stringify(recipes))
+  initData('recipes', 'recipes')
 }
 
 export function initMyRecipes () {
-  localStorage.getItem('myRecipes') || localStorage.setItem('myRecipes', JSON.stringify(myRecipes))
+  initData('usersRecipes/' + getCurrentUser().id, 'myRecipes')
 }

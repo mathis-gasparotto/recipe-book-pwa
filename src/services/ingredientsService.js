@@ -1,4 +1,4 @@
-import ingredients from '../data/ingredients'
+import { initData } from "./firebaseService"
 
 export function getIngredients () {
   return JSON.parse(localStorage.getItem('ingredients'))
@@ -10,5 +10,5 @@ export function getIngredientById (ingredientId) {
 }
 
 export function initIngredients () {
-  localStorage.getItem('ingredients') || localStorage.setItem('ingredients', JSON.stringify(ingredients))
+  initData('ingredients', 'ingredients')
 }

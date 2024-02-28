@@ -1,4 +1,3 @@
-
 export function updateIngredient (ingredientId, newIngredient) {
   let shopppingList = JSON.parse(localStorage.getItem('shopppingList'))
   const index = shopppingList.findIndex(r => r.id == ingredientId)
