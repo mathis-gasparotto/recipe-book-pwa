@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": 163451,
     "title": "11 Spicy seasoned seafood noodles",
     "shortDescription": "Spicy seasoned seafood noodles",
     "description": "### Spicy seasoned seafood noodles",
@@ -32,10 +32,11 @@
         },
         "quantity": 1
       }
-    ]
+    ],
+    "me": true
   },
   {
-    "id": 2,
+    "id": 546351,
     "title": "1 Spicy seasoned seafood noodles",
     "shortDescription": "Spicy seasoned seafood noodles",
     "description": "### Spicy seasoned seafood noodles",
@@ -67,41 +68,7 @@
         },
         "quantity": 1
       }
-    ]
-  },
-  {
-    "id": 3,
-    "title": "22 Spicy seasoned seafood noodles",
-    "shortDescription": "Spicy seasoned seafood noodles",
-    "description": "### Spicy seasoned seafood noodles",
-    "cookingTime": 30,
-    "createdAt": "2021-03-10T19:00:00Z",
-    "updatedAt": "2024-01-10T19:00:00Z",
-    "ingredients": [
-      {
-        "ingredient": {
-          "id": 1,
-          "name": "Noodles",
-          "unit": "ml"
-        },
-        "quantity": 1
-      },
-      {
-        "ingredient": {
-          "id": 2,
-          "name": "Seasoning",
-          "unit": "ml"
-        },
-        "quantity": 1
-      },
-      {
-        "ingredient": {
-          "id": 3,
-          "name": "Seafood",
-          "unit": "ml"
-        },
-        "quantity": 1
-      }
-    ]
+    ],
+    "me": true
   }
 ]

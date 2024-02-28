@@ -3,7 +3,7 @@ import './style.css'
 import App from './App.vue'
 import routes from './routes'
 import { createRouter, createWebHistory } from 'vue-router'
-import { getRecipe } from './services/recipesService'
+import { getRecipe, getMyRecipe } from './services/recipesService'
 import './firebase'
 import { getMessaging, getToken, onMessage } from "firebase/messaging"
 import { createWorker } from 'tesseract.js'
@@ -16,7 +16,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.name === 'Recipe Details') {
     const recipeId = to.params.id
-    const recipe = getRecipe(recipeId)
+    const recipe = getRecipe(recipeId) || getMyRecipe(recipeId)
     if (!recipe) {
       return next({ name: 'Recipes' })
     }
