@@ -5,8 +5,8 @@ import routes from './routes'
 import { createRouter, createWebHistory } from 'vue-router'
 import { getRecipe } from './services/recipesService'
 import './firebase'
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
-
+import { getMessaging, getToken, onMessage } from "firebase/messaging"
+import { createWorker } from 'tesseract.js'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -29,6 +29,11 @@ createApp(App).use(router).mount('#app')
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async function() {
     try {
+      window.Tesseract = createWorker({
+        workerPath: '/assets/lib/tesseract/worker.min.js',
+        langPath: '/assets/lib/lang/tesseract/tesseract.js-fra.traineddata.gz',
+        corePath: '/assets/lib/tesseract/tesseract-core.wasm.js',
+      })
       const registration = await navigator.serviceWorker.register(
         import.meta.env.MODE === 'production' ? '/service-worker.js' : '/dev-sw.js?dev-sw',
         { type: import.meta.env.MODE === 'production' ? 'classic' : 'module' }
