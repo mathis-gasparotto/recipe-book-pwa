@@ -4,10 +4,7 @@
     "title": "11 Spicy seasoned seafood noodles",
     "shortDescription": "Spicy seasoned seafood noodles",
     "description": "### Spicy seasoned seafood noodles",
-    "author": {
-      "id": 1,
-      "name": "Neil Sims"
-    },
+    "author": 1,
     "cookingTime": 30,
     "createdAt": "2021-03-10T19:00:00Z",
     "updatedAt": "2024-01-10T19:00:00Z",
@@ -31,10 +28,7 @@
     "title": "1 Spicy seasoned seafood noodles",
     "shortDescription": "Spicy seasoned seafood noodles",
     "description": "### Spicy seasoned seafood noodles",
-    "author": {
-      "id": 1,
-      "name": "Neil Sims"
-    },
+    "author": 1,
     "cookingTime": 30,
     "createdAt": "2021-03-10T19:00:00Z",
     "updatedAt": "2024-01-10T19:00:00Z",
@@ -58,10 +52,7 @@
     "title": "22 Spicy seasoned seafood noodles",
     "shortDescription": "Spicy seasoned seafood noodles",
     "description": "### Spicy seasoned seafood noodles",
-    "author": {
-      "id": 2,
-      "name": "Neil Sims"
-    },
+    "author": 2,
     "cookingTime": 30,
     "createdAt": "2021-03-10T19:00:00Z",
     "updatedAt": "2024-01-10T19:00:00Z",

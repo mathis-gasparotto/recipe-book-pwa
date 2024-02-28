@@ -1,5 +1,5 @@
 <template>
-  <div v-if="user.id === recipe.author.id">
+  <div v-if="user.id === recipe.author">
     <Modal :show="showDeleteModal" title="Delete recipe" acceptText="Yes, delete" declineText="Cancel"
       @accept="deleteRecipe" @decline="showDeleteModal = false" @close="showDeleteModal = false">
       <p>Are you sure you want to delete this recipe?</p>
@@ -20,7 +20,7 @@
             {{ recipe.shortDescription }}
           </p>
         </div>
-        <div v-if="user.id === recipe.author.id"
+        <div v-if="user.id === recipe.author"
           class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
           <Button text="Edit" color="blue" @click="showEdit" />
           <Button text="Delete" color="red" @click="showDeleteModal = true" />
@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import { deleteRecipe, getRecipes, updateRecipe } from '../../services/recipesService'
-import { getUser } from '../../services/userService'
+import { deleteRecipe, updateRecipe } from '../../services/recipesService'
+import { getCurrentUser } from '../../services/userService'
 import Button from '../Button.vue'
 import Modal from '../Modal.vue'
 import RecipeForm from './RecipeForm.vue'
@@ -55,7 +55,7 @@ export default {
     }
   },
   setup() {
-    const user = getUser()
+    const user = getCurrentUser()
 
     return {
       user

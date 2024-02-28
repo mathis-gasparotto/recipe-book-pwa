@@ -1,4 +1,4 @@
-import { getUser } from './userService'
+import { getCurrentUser, getUserByID } from './userService'
 import recipes from '../data/recipes'
 
 export function updateRecipe (recipeId, newRecipe) {
@@ -24,16 +24,23 @@ export function deleteRecipe (recipeId) {
 
 export function getRecipe (recipeId) {
   let recipeList = getRecipes()
-  return recipeList.find(r => r.id == recipeId)
+  let recipe = recipeList.find(r => r.id == recipeId)
+  recipe.author = getUserByID(recipe.author)
+  return recipe
 }
 
 export function getRecipes () {
   return JSON.parse(localStorage.getItem('recipes'))
 }
 
+export function getMyRecipes () {
+  const user = getCurrentUser()
+  return JSON.parse(localStorage.getItem('recipes')).filter(recipe => recipe.author === user.id)
+}
+
 export function createRecipe (recipe) {
   let recipeList = JSON.parse(localStorage.getItem('recipes'))
-  const author = getUser()
+  const author = getCurrentUser().id
   const id = recipeList[recipeList.length - 1].id + 1
   const now = new Date().toISOString()
   const newRecipe = {
