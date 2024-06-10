@@ -1,18 +1,23 @@
 import { createData, initData, removeData, updateData } from "./firebaseService"
 import { getCurrentUser } from "./userService"
+import { v4 as uuidv4 } from 'uuid'
 
 export function updateIngredient (ingredientId, newIngredient) {
-  let shoppingList = JSON.parse(localStorage.getItem('shoppingList'))
+  let shoppingList = getShoppingList()
   shoppingList[ingredientId] = {
     ...shoppingList[ingredientId],
     ...newIngredient
   }
-  updateData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + shoppingList[ingredientId].id, shoppingList[ingredientId])
+  if (getCurrentUser()) {
+    updateData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + shoppingList[ingredientId].id, shoppingList[ingredientId])
+  } else {
+    localStorage.setItem('shoppingList', JSON.stringify(shoppingList))
+  }
   return shoppingList[ingredientId]
 }
 
 export function deleteIngredient (ingredientId) {
-  let shoppingList = JSON.parse(localStorage.getItem('shoppingList'))
+  let shoppingList = getShoppingList()
   shoppingList.filter(r => r.id != ingredientId)
   localStorage.setItem('shoppingList', JSON.stringify(shoppingList))
   return shoppingList
@@ -23,38 +28,37 @@ export function getShoppingList () {
 }
 
 export function addSingleIngredientToShoppingList (ingredient) {
-  const id = Date.now()
   const newIngredient = {
     ingredient,
     checked: false,
-    id
+    id: uuidv4()
   }
-  createData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + newIngredient.id, newIngredient)
+  if (getCurrentUser()) {
+    createData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + newIngredient.id, newIngredient)
+  } else {
+    const shoppingList = getShoppingList()
+    shoppingList[newIngredient.id] = newIngredient
+    localStorage.setItem('shoppingList', JSON.stringify(shoppingList))
+  }
   return newIngredient
 }
 
 export function addIngredientListToShoppingList (ingredients) {
-  let shoppingList = Object.values(JSON.parse(localStorage.getItem('shoppingList')))
-  ingredients.forEach(ingredient => {
+  let shoppingList = Object.values(getShoppingList())
+  ingredients.forEach((ingredient) => {
     let ingredientItem = shoppingList.find(ingr => ingr.ingredient.id === ingredient.ingredient.id)
     if (ingredientItem) {
       ingredientItem.quantity += ingredient.quantity
-      updateData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + ingredientItem.id, ingredientItem)
+      updateIngredient(ingredientItem.id, ingredientItem)
     } else {
-      const id = Date.now()
-      const newIngredient = {
-        id,
-        ...ingredient,
-        checked: false
-      }
-      createData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + newIngredient.id, newIngredient)
+      addSingleIngredientToShoppingList(ingredient)
     }
   })
   return shoppingList
 }
 
 export function checkIngredient (ingredientId) {
-  const shoppingList = Object.values(JSON.parse(localStorage.getItem('shoppingList')))
+  const shoppingList = Object.values(getShoppingList())
   const ingredient = shoppingList.find(ingr => ingr.id === ingredientId)
   ingredient.checked = !ingredient.checked
   localStorage.setItem('shoppingList', JSON.stringify(shoppingList))
@@ -63,7 +67,7 @@ export function checkIngredient (ingredientId) {
 }
 
 export function removeAllCheckedIngredients () {
-  let shoppingList = JSON.parse(localStorage.getItem('shoppingList'))
+  let shoppingList = getShoppingList()
   Object.keys(shoppingList).forEach(id => {
     if (shoppingList[id].checked) {
       removeData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + id)
@@ -77,19 +81,23 @@ export function removeAllIngredients () {
 }
 
 export function checkAllIngredients () {
-  let shoppingList = JSON.parse(localStorage.getItem('shoppingList'))
+  let shoppingList = getShoppingList()
   Object.keys(shoppingList).forEach(id => {
     updateData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + id, {checked: true})
   })
 }
 
 export function uncheckAllIngredients () {
-  let shoppingList = JSON.parse(localStorage.getItem('shoppingList'))
+  let shoppingList = getShoppingList()
   Object.keys(shoppingList).forEach(id => {
     updateData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + id, {checked: false})
   })
 }
 
 export function initShoppingList () {
-  initData('users/' + getCurrentUser().uid + '/shoppingList', 'shoppingList', [])
+  if (getCurrentUser()) {
+    initData('users/' + getCurrentUser().uid + '/shoppingList', 'shoppingList', [])
+  } else {
+    localStorage.setItem('shoppingList', JSON.stringify([]))
+  }
 }
