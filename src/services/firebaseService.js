@@ -41,8 +41,8 @@ export function initData(refStr, localStorageKey, initValue = null) {
   })
 }
 
-export function registerUser(email, password) {
-  return createUserWithEmailAndPassword(auth, email, password)
+export async function registerUser(email, password) {
+  return await createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     setCurrentUser(userCredential.user)
     return userCredential.user
@@ -52,8 +52,8 @@ export function registerUser(email, password) {
   })
 }
 
-export function loginUser(email, password) {
-  return signInWithEmailAndPassword(auth, email, password)
+export async function loginUser(email, password) {
+  return await signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     setCurrentUser(userCredential.user)
     return userCredential.user
