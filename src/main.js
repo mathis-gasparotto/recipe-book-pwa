@@ -7,6 +7,8 @@ import { getRecipe, getMyRecipe } from './services/recipesService'
 import './firebase'
 import { getMessaging, getToken, onMessage } from "firebase/messaging"
 import { createWorker } from 'tesseract.js'
+import { updateData } from './services/firebaseService'
+import { getCurrentUser } from './services/userService'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -53,6 +55,9 @@ if ('serviceWorker' in navigator) {
           // Send the token to your server and update the UI if necessary
           // ...
           console.log(currentToken)
+          if (getCurrentUser()) {
+            updateData('users/' + getCurrentUser().uid, {messagingToken: currentToken})
+          }
         } else {
           // Show permission request UI
           console.log('No registration token available. Request permission to generate one.');
