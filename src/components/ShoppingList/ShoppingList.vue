@@ -13,21 +13,21 @@
       <li>
         <div class="flex items-center space-x-6 rtl:space-x-reverse ">
           <div class="flex-1 min-w-0">
-  
+
             <ShoppingListItem v-for="ingr in shoppingList" :ingredient="ingr" :key="ingr.id" @reload="reloadData" />
           </div>
         </div>
       </li>
     </ul>
     <div class="flex justify-center">
-      <Button text="Uncheck All" @click="uncheckAll"/>
-      <Button text="Check All" @click="checkAll"/>
-      <Button text="Remove All Checked" @click="removeAllChecked"/>
-      <Button text="Remove All" @click="removeAll"/>
+      <Button text="Uncheck All" @click="uncheckAll" />
+      <Button text="Check All" @click="checkAll" />
+      <Button text="Remove All Checked" @click="removeAllChecked" />
+      <Button text="Remove All" @click="removeAll" />
     </div>
   </div>
 </template>
-  
+
 <script>
 import ShoppingListItem from './ShoppingListItem.vue'
 import { addSingleIngredientToShoppingList, checkAllIngredients, getShoppingList, uncheckAllIngredients, removeAllCheckedIngredients, removeAllIngredients } from '../../services/shoppingListService'
@@ -40,7 +40,7 @@ export default {
     ShoppingListItem,
     Modal,
     Button
-},
+  },
   data() {
     return {
       newIngredient: '',
@@ -51,11 +51,19 @@ export default {
     this.reloadData()
   },
   methods: {
-    reloadData()  {
-      this.shoppingList = getShoppingList()
+    reloadData() {
+      this.shoppingList = Object.values(getShoppingList()).map((ingr) => {
+        if (ingr.ingredient) {
+          return {
+            ...ingr,
+            ...ingr.ingredient
+          }
+        }
+        return ingr
+      })
     },
     addIngredient() {
-      addSingleIngredientToShoppingList({name: this.newIngredient});
+      addSingleIngredientToShoppingList({ name: this.newIngredient });
       this.newIngredient = '';
       this.reloadData();
     },
