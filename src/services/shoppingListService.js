@@ -8,11 +8,7 @@ export function updateIngredient (ingredientId, newIngredient) {
     ...shoppingList[ingredientId],
     ...newIngredient
   }
-  if (getCurrentUser()) {
-    updateData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + shoppingList[ingredientId].id, shoppingList[ingredientId])
-  } else {
-    localStorage.setItem('shoppingList', JSON.stringify(shoppingList))
-  }
+  updateData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + shoppingList[ingredientId].id, shoppingList[ingredientId])
   return shoppingList[ingredientId]
 }
 
@@ -33,22 +29,16 @@ export function addSingleIngredientToShoppingList (ingredient) {
     checked: false,
     id: uuidv4()
   }
-  if (getCurrentUser()) {
-    createData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + newIngredient.id, newIngredient)
-  } else {
-    const shoppingList = getShoppingList()
-    shoppingList[newIngredient.id] = newIngredient
-    localStorage.setItem('shoppingList', JSON.stringify(shoppingList))
-  }
+  createData('users/' + getCurrentUser().uid + '/shoppingList' + '/' + newIngredient.id, newIngredient)
   return newIngredient
 }
 
 export function addIngredientListToShoppingList (ingredients) {
-  let shoppingList = Object.values(getShoppingList())
+  const shoppingList = Object.values(getShoppingList())
   ingredients.forEach((ingredient) => {
-    let ingredientItem = shoppingList.find(ingr => ingr.ingredient.id === ingredient.ingredient.id)
+    const ingredientItem = shoppingList.find(ingr => ingr.ingredient.ingredient.id === ingredient.ingredient.id)
     if (ingredientItem) {
-      ingredientItem.quantity += ingredient.quantity
+      ingredientItem.ingredient.quantity += ingredient.quantity
       updateIngredient(ingredientItem.id, ingredientItem)
     } else {
       addSingleIngredientToShoppingList(ingredient)
@@ -95,9 +85,5 @@ export function uncheckAllIngredients () {
 }
 
 export function initShoppingList () {
-  if (getCurrentUser()) {
-    initData('users/' + getCurrentUser().uid + '/shoppingList', 'shoppingList', [])
-  } else {
-    localStorage.setItem('shoppingList', JSON.stringify([]))
-  }
+  initData('users/' + getCurrentUser().uid + '/shoppingList', 'shoppingList', [])
 }

@@ -85,9 +85,5 @@ export function initRecipes() {
 }
 
 export function initMyRecipes() {
-  if (getCurrentUser()) {
-    initData('users/' + getCurrentUser().uid + '/recipes', 'myRecipes')
-  } else {
-    localStorage.setItem('myRecipes', JSON.stringify([]))
-  }
+  initData('users/' + getCurrentUser().uid + '/recipes', 'myRecipes')
 }
