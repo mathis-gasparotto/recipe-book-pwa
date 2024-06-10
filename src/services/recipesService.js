@@ -1,4 +1,4 @@
-import { initData, createData, updateData } from './firebaseService'
+import { initData, createData, updateData, removeData } from './firebaseService'
 import { getCurrentUser } from './userService'
 
 export function updateRecipe(recipeId, newRecipe) {
